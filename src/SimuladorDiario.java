@@ -1,6 +1,5 @@
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Random;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -23,6 +22,20 @@ public class SimuladorDiario {
   * simuladores.
   */
 
+ public SimuladorDiario(CCU workday) {
+
+ }
+
+ /**
+  * Contador de dias trabajados
+  */
+ private int contadorDias = 1;
+
+ /**
+  * Dia de ejecución del programa. Es simulada.
+  */
+ LocalDate fechaActual = LocalDate.now();
+
  /**
   * Método privado para imprimir la hora en que se hacen los movimientos
   * en el ticket.
@@ -30,7 +43,6 @@ public class SimuladorDiario {
   * @return representación en cadena de la hora.
   */
  private String regresaHora() {
-  LocalDateTime fechaActual = LocalDateTime.now();
   DateTimeFormatter fechaFormato = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
   String formattedDate = "Fecha y Hora actuales: " + fechaActual.format(fechaFormato) + "\n";
   return formattedDate;
@@ -44,22 +56,23 @@ public class SimuladorDiario {
   * @return {@link}CCU en formato .txt generado como archivo externo.
   * @throws IOException En caso de que el archivo no se pueda generar.
   */
- public FileWriter generaResumen(CCU veh, int counter) throws IOException {
-  FileWriter resumen = new FileWriter("Dia de Operacion #" + counter + ".txt");
-  String startCCU = "";
+ public FileWriter generaResumen(CCU veh) throws IOException {
+  FileWriter resumen = new FileWriter("Dia #" + contadorDias + ".txt");
+  String startCCU = regresaHora();
   startCCU += veh.CCUToText();
-  // yep, me estoy reciclando esto de los tickets del estacionamiento. Hay que
-  // hacer modificaciones.
-  /*
-   * startCCU += "Tiempo estacionado: " + veh.timeElapsed() + " minutos. \n";
-   * startCCU += "Tarifa a Pagar: $ " + cobro(veh) + " M.N \n";
-   * startCCU += "Se pago con: $ " + pagadoCon + " M.N\n";
-   * startCCU += "Cambio al cliente: $ " + darCambio(cobro) + "\n";
-   */
   resumen.write(startCCU);
   resumen.close();
   System.out.println("CCU Cerrado por hoy. Resumen del día guardado exitosamente.");
   return resumen;
+ }
+
+ /**
+  * Método para cerrar el día.
+  */
+ public void finDia(CCU veh) throws IOException {
+  generaResumen(veh);
+  contadorDias++;
+  fechaActual.plusDays(1);
  }
 
 }

@@ -1,3 +1,5 @@
+import java.util.Random;
+
 /**
  * Clase Visitante. Aqui podemos manejar
  * el tipo de membresia del posible visitante
@@ -13,7 +15,28 @@
 
 public class Visitante {
 
-  // tipo de membresia
+  /**
+   * Nivel de prioiridad del visitante
+   * según su membresia.
+   * Nota. Cambiar a char o int funciona igual?
+   */
+  private int proridad;
+
+  /**
+   * Pago del Visitante. 
+   */
+  public double pago = new Random().nextDouble(200)+1;
+
+  /**
+   * Constructor de Visitante.
+   */
+  public Visitante() {
+    seleccionaMembresiaAleatoria();
+  }
+
+  /**
+   * Tipos de Membresia que puede tener el visitante.
+   */
   private enum tipoMembresia {
     MiembroClub,
     ComunidadUNAM,
@@ -21,8 +44,17 @@ public class Visitante {
     VisitanteNormal
   }
 
-  // nivel de prioridad
-  private int proridad;
+  /**
+   * Método para seleccionar una membresia aleatoria.
+   * Como simulamos n cantidad de visitantes, tiene sentido
+   * que tengan membresias aleatorias.
+   */
+  private void seleccionaMembresiaAleatoria() {
+    tipoMembresia hi = tipoMembresia.values()[new Random().nextInt(tipoMembresia.values().length)];
+    asignaPrioridad(hi);
+  }
+
+
 
   /**
    * Idea de método para asignar prioridades según tipo
@@ -31,7 +63,7 @@ public class Visitante {
    * 
    * @param tipo
    */
-  private void asignaPrioridad(tipoMembresia tipo) {
+  private int asignaPrioridad(tipoMembresia tipo) {
 
     switch (tipo) {
       case MiembroClub:
@@ -45,7 +77,7 @@ public class Visitante {
       default:
         proridad = 4;
     }
-
+    return proridad;
   }
 
 }
