@@ -39,10 +39,9 @@ public class CCU {
 
     }
 
-    public int calculoBoletosPorActividad(){
+    public int calculoBoletosPorActividad() {
         return 0;
     }
-
 
     /**
      * Método para la compra-venta de boletos.
@@ -50,8 +49,9 @@ public class CCU {
      * @param vis {@link}Visitante en cuestión.
      */
     public void venta(Visitante vis) {
-        //Actividad hi = new Actividad(vis);
         darCambio(vis.pago);
+        totalTicketsVendidos++;
+
 
     }
 
@@ -62,7 +62,7 @@ public class CCU {
      * @return cambio a entregar.
      */
     public double darCambio(double cobrar) {
-        return cambioInicio - cobrar;
+        return 0;
     }
 
     /**
@@ -71,18 +71,20 @@ public class CCU {
      * @return Resumen en cadena.
      */
     public String CCUToText() {
-        String resumen = "";
+        String resumen = "\n";
         resumen += "Caja Abierta con " + cambioInicio + "\n";
         resumen += "Total de Boletos Vendidos: " + totalTicketsVendidos + "\n";
-        resumen += "Actividad más vendida: " + "\n";
-        resumen += "Actividad menos vendida :" + "\n";
+        //resumen += "Actividad más vendida: " + Actividad.boletosVendidosPorActividad + "\n";
+        //resumen += "Actividad menos vendida :" + "\n";
         resumen += "Ganancias Totales del día: " + ganancias;
         return resumen;
     }
 
-   /*  public static void main(String[] args) {
+    public static void main(String[] args) {
         Visitante daniel = new Visitante();
-        venta(daniel);
-        CCUToText();
-    } */
+        CCU nuevo = new CCU();
+        nuevo.venta(daniel);
+        System.out.println(nuevo.CCUToText());
+    }
+
 }

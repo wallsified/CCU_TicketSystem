@@ -15,46 +15,74 @@ import java.util.Random;
 
 public class Visitante {
 
-  /**
-   * Nivel de prioiridad del visitante
-   * según su membresia.
-   * Nota. Cambiar a char o int funciona igual?
-   */
-  private int proridad;
+  private Actividad act;
+  private Membresia memb;
 
-  /**
-   * Pago del Visitante. 
-   */
-  public double pago = new Random().nextDouble(200)+1;
+  public double pago = new Random().nextDouble(200) + 1;
+
+  protected int precioActividad;
+
+  protected int boletosVendidosPorActividad;
+
+  protected int cupoPorActividad;
+
+  private int proridad;
 
   /**
    * Constructor de Visitante.
    */
   public Visitante() {
-    seleccionaMembresiaAleatoria();
+    memb = seleccionaMembresiaAleatoria();
+    act = seleccionaActividadAleatoria();
+    asignaciónActividades(act);
+    asignaPrioridad(memb);
   }
 
   /**
    * Tipos de Membresia que puede tener el visitante.
    */
-  private enum tipoMembresia {
-    MiembroClub,
-    ComunidadUNAM,
-    Estudiante,
-    VisitanteNormal
+  private enum Membresia {
+    MiembroClub, ComunidadUNAM, Estudiante, VisitanteNormal
   }
+
+  /*
+   * Enum de actividades. Simplemente por variedad.
+   */
+  private enum Actividad {
+    Cine1, Cine2, Cine3, Museo, Teatro1, Teatro2
+  }
+
+  private void asignaciónActividades(Actividad act) {
+    switch (act) {
+      case Cine1, Cine2, Cine3:
+        precioActividad = 60;
+        cupoPorActividad = 80;
+        break;
+      case Teatro1, Teatro2:
+        precioActividad = 80;
+        cupoPorActividad = 150;
+        break;
+      default:
+        precioActividad = 30;
+        cupoPorActividad = 200;
+    }
+  }
+
+  public Actividad seleccionaActividadAleatoria() {
+    return Actividad.values()[new Random().nextInt(Actividad.values().length)];
+  }
+
 
   /**
    * Método para seleccionar una membresia aleatoria.
    * Como simulamos n cantidad de visitantes, tiene sentido
    * que tengan membresias aleatorias.
    */
-  private void seleccionaMembresiaAleatoria() {
-    tipoMembresia hi = tipoMembresia.values()[new Random().nextInt(tipoMembresia.values().length)];
+  private Membresia seleccionaMembresiaAleatoria() {
+    Membresia hi = Membresia.values()[new Random().nextInt(Membresia.values().length)];
     asignaPrioridad(hi);
+    return hi;
   }
-
-
 
   /**
    * Idea de método para asignar prioridades según tipo
@@ -63,7 +91,7 @@ public class Visitante {
    * 
    * @param tipo
    */
-  private int asignaPrioridad(tipoMembresia tipo) {
+  private int asignaPrioridad(Membresia tipo) {
 
     switch (tipo) {
       case MiembroClub:
