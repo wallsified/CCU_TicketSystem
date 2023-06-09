@@ -1,4 +1,5 @@
 package System;
+
 import java.util.Random;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -56,7 +57,7 @@ public class Visitante {
   /**
    * Prioridad que se le da al cliente.
    */
-  public int proridad;
+  public int prioridad;
 
   /**
    * Constructor de Visitante.
@@ -139,17 +140,17 @@ public class Visitante {
 
     switch (tipo) {
       case MiembroClub:
-        proridad = 1;
+        prioridad = 1;
         break;
       case ComunidadUNAM:
-        proridad = 2;
+        prioridad = 2;
         break;
       case Estudiante:
-        proridad = 3;
+        prioridad = 3;
       default:
-        proridad = 4;
+        prioridad = 4;
     }
-    return proridad;
+    return prioridad;
   }
 
   /**
@@ -166,4 +167,16 @@ public class Visitante {
     return act == vis.act && entrada.equals(vis.entrada) && memb == vis.memb;
   }
 
+  public int compareTo(Visitante vis) {
+
+    if(this.prioridad != vis.prioridad)
+      return this.prioridad - vis.prioridad;
+
+    if (entrada.before(vis.entrada))
+      return -1;
+    else if (entrada.after(vis.entrada))
+      return 1;
+
+    return 0;
+  }
 }

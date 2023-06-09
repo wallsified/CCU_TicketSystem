@@ -17,53 +17,38 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
   /**
    * Clase privada para iteradores de heaps.
    */
-  private class Iterador implements Iterator<T> {
+  private class Iterador<t extends Comparable<T>> implements Iterator<T> {
 
-    /**
-     * Índice del iterador.
-     */
-    private int actual;
+      /* Índice del iterador. */
+      private int actual;
 
-    /**
-     * Construye un nuevo iterador, auxiliándose del heap mínimo.
-     */
-    public Iterador() {
-    }
+      /* Construye un nuevo iterador, auxiliándose del heap mínimo. */
+      public Iterador() {
+          actual = 0;
+      }
 
-    /**
-     * Nos dice si hay un siguiente elemento.
-     */
-    @Override
-    public boolean hasNext() {
-      return siguiente < tamanio;
-    }
+      /* Nos dice si hay un siguiente elemento. */
+      @Override
+      public boolean hasNext() {
+          return actual < siguiente;
+      }
 
-    /**
-     * Regresa el siguiente elemento.
-     */
-    @Override
-    public T next() {
-      T elem = arreglo[siguiente++];
-      actual++; // por que tambien sumamos al indice actual no?
-      return elem;
-    }
+      /* Regresa el siguiente elemento. */
+      @Override
+      public T next() {
+          return (T) arreglo[actual++];
+      }
 
-    /**
-     * No lo implementamos: siempre lanza una excepción.
-     */
-    @Override
-    public void remove() {
-      throw new UnsupportedOperationException();
-    }
+      /* No lo implementamos: siempre lanza una excepción. */
+      @Override
+      public void remove() {
+          throw new UnsupportedOperationException();
+      }
   }
 
-  /** El siguiente índice dónde agregar un elemento. */
-  protected int siguiente;
-
-  /** Tamaño del heap */
-  protected int tamanio;
-
-  /**
+  /* El siguiente índice dónde agregar un elemento. */
+  protected int siguiente = 0;
+  /*
    * El arreglo que guarda los datos con la estructura de árbol ue requiere el
    * heap.
    */
@@ -76,17 +61,15 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
    */
   @SuppressWarnings("unchecked")
   private T[] creaArregloGenerico(int n) {
-    return (T[]) (new Comparable[n]);
+      return (T[]) (new Comparable[n]);
   }
 
   /**
    * Constructor sin parámetros. Es más eficiente usar {@link
-   * MinHeap}, pero se ofrece este constructor por completez.
+   * #HeapMinimo(Lista)}, pero se ofrece este constructor por completez.
    */
   public Heap() {
-    this.arreglo = creaArregloGenerico(32);
-    // 32 simplemente por ser potencia de 2, pero probar
-    // con 16 ó 64 igual funcióno.
+
   }
 
   /**
@@ -99,25 +82,18 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
    *                      heap.
    */
   public Heap(Coleccionable<T> coleccionable) {
-    arreglo = creaArregloGenerico(coleccionable.getTamanio() * 2);
-    Iterator<T> hi = coleccionable.iterator();
-    while (hi.hasNext()) {
-      agregar(hi.next());
-    }
+      arreglo = creaArregloGenerico(coleccionable.getTamanio() * 2);
+      for (T t : coleccionable)
+          agregar(t);
   }
 
-  /**
-   * Métodos auxiliares. Es un swap de elementos en el arreglo.
-   * 
-   * @param i Indice del primer elemento a intercambiar.
-   * @param j Indice del segundo elemento a intercambiar.
+  /*
+   * Métodos auxiliares.
    */
   private void intercambia(int i, int j) {
-    if ((0 <= i && i < arreglo.length) && (0 <= j && j < arreglo.length)) {
-      T elem = (T) arreglo[i];
+      T aux = arreglo[i];
       arreglo[i] = arreglo[j];
-      arreglo[j] = elem;
-    }
+      arreglo[j] = aux;
   }
 
   /**
@@ -126,9 +102,10 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
    * Recordemos que el hijo izquierdo se encuentra a 2i + i
    */
   private int izquierdo(int i) {
-    if ((i * 2) + 1 < arreglo.length)
-      return (i * 2) + 1;
-    return -1;
+      int z = 2 * i + 1;
+      if (z < siguiente)
+          return z;
+      return -1;
   }
 
   /**
@@ -137,9 +114,10 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
    * Recordemos que el hijo izquierdo se encuentra a 2i + 2
    */
   private int derecho(int i) {
-    if ((i * 2) + 2 < arreglo.length)
-      return (i * 2) + 2;
-    return -1;
+      int z = 2 * i + 2;
+      if (z < siguiente)
+          return z;
+      return -1;
   }
 
   /**
@@ -148,9 +126,10 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
    * Recordemos que el hijo izquierdo se encuentra a (i -1)/2
    */
   private int padre(int i) {
-    if ((i - 1 / 2) >= 0)
-      return (i - 1) / 2;
-    return -1;
+      int z = (i - 1) / 2;
+      if (0 <= z)
+          return z;
+      return -1;
   }
 
   /**
@@ -160,17 +139,18 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
    */
   @Override
   public void agregar(T elemento) {
-    if (siguiente == arreglo.length) {
-      T[] aux = creaArregloGenerico(siguiente * 2);
-      for (int i = 0; i < arreglo.length; i++)
-        aux[i] = arreglo[i];
-      arreglo = aux;
-    }
 
-    arreglo[siguiente] = elemento;
-    reordena(siguiente);
-    siguiente++;
-    tamanio++;
+      if (siguiente == arreglo.length) {
+          T[] aux = creaArregloGenerico(siguiente * 2 + 1);
+          for (int i = 0; i < arreglo.length; i++)
+              aux[i] = arreglo[i];
+          arreglo = aux;
+      }
+
+      arreglo[siguiente] = elemento;
+      reordena(siguiente);
+      siguiente++;
+
   }
 
   /**
@@ -179,11 +159,54 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
    * se intercambia con el hijo correspondiente para que el heap sea
    * válido. Es importante considerar si el heap es mínimo o máximo.
    * 
-   * @param n     Indice desde donde se reordena.
-   * @param esMin Si el elemento en el indice es el minimo o no.
+   * @param n
    */
   protected void reordenaParaAbajo(int n, boolean esMin) {
+      if (hayIzquierdo(n) || hayDerecho(n)) {
+          if (esMin) {
+              if (hayAmbosHijos(n)) {
+                  int min = getMenor(n, izquierdo(n), derecho(n));
+                  if (arreglo[n].compareTo(arreglo[min]) > 0) {
+                      intercambia(n, min);
+                      reordenaParaAbajo(min, esMin);
+                  }
+              } else if (!hayIzquierdo(n) && arreglo[n].compareTo(arreglo[derecho(n)]) > 0) {
+                  intercambia(n, derecho(n));
+                  reordenaParaAbajo(derecho(n), esMin);
+              } else if (!hayDerecho(n) && arreglo[n].compareTo(arreglo[izquierdo(n)]) > 0) {
+                  intercambia(n, izquierdo(n));
+                  reordenaParaAbajo(izquierdo(n), esMin);
+              }
 
+          } else {
+              if (hayAmbosHijos(n)) {
+                  int max = getMayor(n, izquierdo(n), derecho(n));
+                  if (arreglo[n].compareTo(arreglo[max]) < 0) {
+                      intercambia(n, max);
+                      reordenaParaAbajo(max, esMin);
+                  }
+              } else if (!hayIzquierdo(n) && arreglo[n].compareTo(arreglo[derecho(n)]) < 0) {
+                  intercambia(n, derecho(n));
+                  reordenaParaAbajo(derecho(n), esMin);
+              } else if (!hayDerecho(n) && arreglo[n].compareTo(arreglo[izquierdo(n)]) < 0) {
+                  intercambia(n, izquierdo(n));
+                  reordenaParaAbajo(izquierdo(n), esMin);
+              }
+
+          }
+      }
+  }
+
+  private boolean hayAmbosHijos(int n) {
+      return hayIzquierdo(n) && hayDerecho(n);
+  }
+
+  private boolean hayIzquierdo(int n) {
+      return 1 <= izquierdo(n);
+  }
+
+  private boolean hayDerecho(int n) {
+      return 2 <= derecho(n);
   }
 
   /**
@@ -202,12 +225,12 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
    * esfuerzo.
    * 
    * @param elemento a eliminar del heap.
-   * @throws IllegalStateException Esta operación no debería ser posible en un
-   *                               Heap.
+   * @throws IllegalStateException. Esta operación no debería ser posible
+   *                                en un Heap
    */
   @Override
-  public void eliminar(T elemento) throws IllegalStateException {
-    throw new IllegalStateException("Esta operación no debería ser válida para Heaps");
+  public void eliminar(T elemento) {
+      throw new IllegalStateException("Esta operación no debería ser válida para Heaps");
   }
 
   /**
@@ -219,35 +242,35 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
    */
   @Override
   public boolean contiene(T elemento) {
-    Iterator<T> hi = this.iterator();
-    boolean existe = false;
-    while (hi.hasNext()) {
-      existe = (hi.next() == elemento) ? true : false;
-    }
-    return existe;
+      for (T t : this)
+          if (t.equals(elemento))
+              return true;
+      return false;
   }
 
   /**
    * Nos dice si el heap es vacío.
    * 
-   * @return <code>true</code> si ya no hay elementos en el heap,
-   *         <code>false</code> en otro caso.
+   * @return <tt>true</tt> si ya no hay elementos en el heap,
+   *         <tt>false</tt> en otro caso.
    */
   public boolean esVacia() {
-    return arreglo.length == 0; // tamanio == 0 seria igual de valido.
+      return siguiente == 0;
   }
 
+  @Override
   /**
    * Elimina todos los elementos del heap.
    * pone todos los espacios del arreglo en <code>null</code>
    */
-  @Override
+
   public void vaciar() {
-    tamanio = 0;
-    arreglo = null; // aprovechar el recolector?
+      siguiente = 0;
+      arreglo = creaArregloGenerico(0);
   }
 
-  /**
+
+  /*
    * Método auxiliar que regresa el índice en el arreglo que
    * tiene al elemento menor de tres.
    * Recibe tres índices de elementos en el arreglo.
@@ -257,19 +280,20 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
    * @param d        Tercer elemento en la comparación
    */
   private int getMenor(int elemento, int i, int d) {
-    if (arreglo[elemento].compareTo(arreglo[i]) <= 0 && arreglo[elemento].compareTo(arreglo[d]) <= 0)
-      return elemento;
 
-    if (arreglo[i].compareTo(arreglo[elemento]) <= 0 && arreglo[i].compareTo(arreglo[d]) <= 0)
-      return i;
+      if (arreglo[elemento].compareTo(arreglo[i]) <= 0 && arreglo[elemento].compareTo(arreglo[d]) <= 0)
+          return elemento;
 
-    if (arreglo[d].compareTo(arreglo[elemento]) <= 0 && arreglo[d].compareTo(arreglo[i]) <= 0)
-      return d;
+      if (arreglo[i].compareTo(arreglo[elemento]) <= 0 && arreglo[i].compareTo(arreglo[d]) <= 0)
+          return i;
 
-    return -1;
+      if (arreglo[d].compareTo(arreglo[elemento]) <= 0 && arreglo[d].compareTo(arreglo[i]) <= 0)
+          return d;
+
+      return -1;
   }
 
-  /**
+  /*
    * Método auxiliar que regresa el índice en el arreglo que
    * tiene al elemento menor de tres.
    * Recibe tres índices de elementos en el arreglo.
@@ -279,16 +303,16 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
    * @param d        Tercer elemento en la comparación
    */
   private int getMayor(int elemento, int i, int d) {
-    if (arreglo[elemento].compareTo(arreglo[i]) >= 0 && arreglo[elemento].compareTo(arreglo[d]) >= 0)
-      return elemento;
+      if (arreglo[elemento].compareTo(arreglo[i]) >= 0 && arreglo[elemento].compareTo(arreglo[d]) >= 0)
+          return elemento;
 
-    if (arreglo[i].compareTo(arreglo[elemento]) >= 0 && arreglo[i].compareTo(arreglo[d]) >= 0)
-      return i;
+      if (arreglo[i].compareTo(arreglo[elemento]) >= 0 && arreglo[i].compareTo(arreglo[d]) >= 0)
+          return i;
 
-    if (arreglo[d].compareTo(arreglo[elemento]) >= 0 && arreglo[d].compareTo(arreglo[i]) >= 0)
-      return d;
+      if (arreglo[d].compareTo(arreglo[elemento]) >= 0 && arreglo[d].compareTo(arreglo[i]) >= 0)
+          return d;
 
-    return -1;
+      return -1;
   }
 
   /**
@@ -309,16 +333,16 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
    *                 mínimo.
    */
   protected void reordena(int elemento, boolean esMin) {
-    int padre = padre(elemento);
-    if (padre >= 0) {
-      if (esMin && arreglo[elemento].compareTo(arreglo[padre]) < 0) {
-        intercambia(elemento, padre);
-        reordena(padre, esMin);
-      } else if (!esMin && arreglo[elemento].compareTo(arreglo[padre]) > 0) {
-        intercambia(elemento, padre);
-        reordena(padre, esMin);
+      int padre = padre(elemento);
+      if (padre >= 0) {
+          if (esMin && arreglo[elemento].compareTo(arreglo[padre]) < 0) {
+              intercambia(elemento, padre);
+              reordena(padre, esMin);
+          } else if (!esMin && arreglo[elemento].compareTo(arreglo[padre]) > 0) {
+              intercambia(elemento, padre);
+              reordena(padre, esMin);
+          }
       }
-    }
   }
 
   /**
@@ -328,29 +352,25 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
    */
   @Override
   public int getTamanio() {
-    return tamanio;
+      return siguiente;
   }
 
   @Override
   /**
    * Regresa la representación en cadena del heap.
    * 
-   * @return la representación en cadena del heap.
+   * @return la representación en cadena del árbol.
    */
   public String toString() {
-    if (esVacia()) {
-      return "[]";
-    }
-
-    String output = "\n["; // solo para tener un espacio extra
-    for (int i = 0; i < siguiente; i++) {
-      output += arreglo[i];
-      if (i < siguiente - 1)
-        output += ", ";
-    }
-    output += "]";
-
-    return output;
+      // Aquí va tu código
+      String out = "[";
+      for (int i = 0; i < siguiente; i++) {
+          out += arreglo[i];
+          if (i < siguiente - 1)
+              out += ", ";
+      }
+      out += "]";
+      return out;
   }
 
   /**
@@ -360,6 +380,6 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
    */
   @Override
   public Iterator<T> iterator() {
-    return new Iterador();
+      return new Iterador<T>();
   }
 }
