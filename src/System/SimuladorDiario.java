@@ -1,3 +1,4 @@
+package System;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.io.FileWriter;
@@ -74,5 +75,6 @@ public class SimuladorDiario {
   contadorDias++;
   fechaActual.plusDays(1);
  }
+ 
 
 }

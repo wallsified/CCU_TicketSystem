@@ -1,3 +1,4 @@
+package System;
 import java.util.Random;
 
 /**
@@ -10,7 +11,6 @@ import java.util.Random;
  */
 
 public class CCU {
-
 
     /**
      * Ganancias
@@ -32,12 +32,6 @@ public class CCU {
      */
     private int totalTicketsVendidos;
 
-    /**
-     * Constructor principal.
-     */
-    public CCU() {
-
-    }
 
     public int calculoBoletosPorActividad() {
         return 0;
@@ -51,7 +45,6 @@ public class CCU {
     public void venta(Visitante vis) {
         darCambio(vis.pago);
         totalTicketsVendidos++;
-
 
     }
 
@@ -74,8 +67,9 @@ public class CCU {
         String resumen = "\n";
         resumen += "Caja Abierta con " + cambioInicio + "\n";
         resumen += "Total de Boletos Vendidos: " + totalTicketsVendidos + "\n";
-        //resumen += "Actividad más vendida: " + Actividad.boletosVendidosPorActividad + "\n";
-        //resumen += "Actividad menos vendida :" + "\n";
+        // resumen += "Actividad más vendida: " + Actividad.boletosVendidosPorActividad
+        // + "\n";
+        // resumen += "Actividad menos vendida :" + "\n";
         resumen += "Ganancias Totales del día: " + ganancias;
         return resumen;
     }
