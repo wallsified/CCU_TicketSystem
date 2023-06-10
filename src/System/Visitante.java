@@ -37,7 +37,7 @@ public class Visitante {
   /**
    * Pago del visitante. Probablemente se elimine.
    */
-  public double pago = new Random().nextDouble(200) + 1;
+  // public double pago = new Random().nextDouble(200) + 1;
 
   /**
    * Precio de la actividad

@@ -43,7 +43,7 @@ public class CCU {
      * @param vis {@link}Visitante en cuestión.
      */
     public void venta(Visitante vis) {
-        darCambio(vis.pago);
+        // darCambio(vis.pago);
         totalTicketsVendidos++;
 
     }
