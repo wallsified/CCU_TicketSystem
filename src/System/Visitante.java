@@ -22,22 +22,24 @@ public class Visitante {
   /**
    * Acticidad del cliente.
    */
-  private Actividad act;
+  protected Actividad act;
 
   /**
    * Tipo de membresía del cliente.
    */
-  private Membresia memb;
+  protected Membresia memb;
 
   /**
    * Marca de tiempo única para cada visitante.
+   * Añadimos 3 segundos extra entre cada visitante para simular una
+   * marca de tiempo diferente aun cuando creamos visitantes al mismo tiempo.
    */
-  private Timestamp entrada = Timestamp.from(Instant.now());;
+  protected Timestamp entrada = Timestamp.from(Instant.now().plusSeconds(180));;
 
   /**
    * Pago del visitante. Probablemente se elimine.
    */
-  // public double pago = new Random().nextDouble(200) + 1;
+  public double pago = new Random().nextDouble(200) + 1;
 
   /**
    * Precio de la actividad
@@ -65,6 +67,7 @@ public class Visitante {
   public Visitante() {
     memb = seleccionaMembresiaAleatoria();
     act = seleccionaActividadAleatoria();
+    act.boletoVendido();
     asignaciónActividades(act);
     asignaPrioridad(memb);
   }
@@ -77,10 +80,21 @@ public class Visitante {
   }
 
   /**
-   * Enum de actividades. Simplemente por variedad.
+   * Enum de actividades variadas. Cada actividad tiene
+   * propiedades de precio, cupo y cantidad de boletos
+   * propios.
    */
-  private enum Actividad {
-    Cine1, Cine2, Cine3, Museo, Teatro1, Teatro2
+  public enum Actividad {
+    Cine, Expo, Museo, Teatro;
+
+    /** Boletos vendidos por actividad */
+    protected int boletosVendidosPorActividad;
+
+    /** Método para sumar uno al total de voletos por actividad. */
+    public void boletoVendido() {
+      boletosVendidosPorActividad++;
+    }
+
   }
 
   /**
@@ -91,11 +105,14 @@ public class Visitante {
    */
   private void asignaciónActividades(Actividad act) {
     switch (act) {
-      case Cine1, Cine2, Cine3:
+      case Cine:
         precioActividad = 60;
         cupoPorActividad = 80;
         break;
-      case Teatro1, Teatro2:
+      case Expo:
+        precioActividad = 40;
+        cupoPorActividad = 100;
+      case Teatro:
         precioActividad = 80;
         cupoPorActividad = 150;
         break;
@@ -169,7 +186,7 @@ public class Visitante {
 
   public int compareTo(Visitante vis) {
 
-    if(this.prioridad != vis.prioridad)
+    if (this.prioridad != vis.prioridad)
       return this.prioridad - vis.prioridad;
 
     if (entrada.before(vis.entrada))

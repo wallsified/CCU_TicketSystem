@@ -1,4 +1,5 @@
 package System;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.io.FileWriter;
@@ -15,6 +16,8 @@ import java.io.IOException;
 
 public class SimuladorDiario {
 
+ private CCU test;
+
  /**
   * Podemos hacer un constructor que reciba un {@link}CCU y que al final de eso
   * genere
@@ -24,13 +27,13 @@ public class SimuladorDiario {
   */
 
  public SimuladorDiario(CCU workday) {
-
+  this.test = workday;
  }
 
  /**
   * Contador de dias trabajados
   */
- private int contadorDias = 1;
+ private int contadorDias;
 
  /**
   * Dia de ejecución del programa. Es simulada.
@@ -57,24 +60,23 @@ public class SimuladorDiario {
   * @return {@link}CCU en formato .txt generado como archivo externo.
   * @throws IOException En caso de que el archivo no se pueda generar.
   */
- public FileWriter generaResumen(CCU veh) throws IOException {
+/*  public FileWriter generaResumen() throws IOException {
   FileWriter resumen = new FileWriter("Dia #" + contadorDias + ".txt");
-  String startCCU = regresaHora();
-  startCCU += veh.CCUToText();
-  resumen.write(startCCU);
+  String startCCU = regresaHora() + "\n";
+  //startCCU += test.CCUToText();
+  resumen.write("hi!");
   resumen.close();
   System.out.println("CCU Cerrado por hoy. Resumen del día guardado exitosamente.");
-  return resumen;
- }
-
- /**
-  * Método para cerrar el día.
-  */
- public void finDia(CCU veh) throws IOException {
-  generaResumen(veh);
   contadorDias++;
   fechaActual.plusDays(1);
+  return resumen;
  }
- 
+ */
 
-}
+ public void venta(Visitante vis) {
+  test.venta(vis);
+ }
+
+ 
+ }
+
