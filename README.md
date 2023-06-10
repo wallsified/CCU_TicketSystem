@@ -20,9 +20,9 @@
 En la carpeta de la tarea se abre la terminal y se ejecutan los siguientes comandos:
 
 ```
-javac -cp ".:lib/PilasYColas.jar" -d bin src/*.java
+javac -cp ".:lib/PilasYColas.jar" -d bin src/System/*.java && javac -cp ".:lib/PilasYColas.jar" -d bin src/Priority/*.java
 
-java -cp ".:lib/PilasYColas.jar:bin/" Main
+java -cp ".:lib/PilasYColas.jar:bin/" System/CCU 
 ```
 
 <br>
