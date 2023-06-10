@@ -1,6 +1,9 @@
 package System;
 
 import java.util.Random;
+
+import Priority.priorityQueueMin;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -22,6 +25,8 @@ public class CCU {
      * Ganancias
      */
     private double ganancias;
+
+    private priorityQueueMin<Visitante> colaPrioridad;
 
     /**
      * Instancia de aleatorio para diversos usos.
@@ -70,6 +75,7 @@ public class CCU {
      * @param vis {@link}Visitante en cuestión.
      */
     public void venta(Visitante vis) {
+        colaPrioridad.queue(vis);
         ganancias += vis.precioActividad;
         totalTicketsVendidos++;
     }

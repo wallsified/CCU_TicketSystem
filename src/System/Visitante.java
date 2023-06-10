@@ -17,7 +17,7 @@ import java.time.Instant;
  * 
  */
 
-public class Visitante {
+public class Visitante implements Comparable<Visitante> {
 
   /**
    * Acticidad del cliente.
@@ -184,6 +184,7 @@ public class Visitante {
     return act == vis.act && entrada.equals(vis.entrada) && memb == vis.memb;
   }
 
+  @Override
   public int compareTo(Visitante vis) {
 
     if (this.prioridad != vis.prioridad)
