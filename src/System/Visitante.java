@@ -109,6 +109,21 @@ public class Visitante implements Comparable<Visitante> {
       boletosVendidosPorActividad++;
     }
 
+    @Override
+    public String toString() {
+      switch (this) {
+        case Cine:
+          return "Cine";
+        case Expo:
+          return "Exposición";
+        case Museo:
+          return "Museo";
+        case Teatro:
+          return "Teatro";
+        default:
+          return null;
+      }
+    }
   }
 
   /**
@@ -219,5 +234,14 @@ public class Visitante implements Comparable<Visitante> {
       return 1;
 
     return 0;
+  }
+
+  @Override
+  public String toString(){
+    String vis = " ";
+    vis += "Membresia: " + memb.toString() + "\n";
+    vis += "Prioridad: " + this.prioridad + "\n";
+    vis += "Actividad: " + act.toString() + "\n\n";
+    return vis;
   }
 }

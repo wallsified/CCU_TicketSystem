@@ -30,7 +30,7 @@ public class CCU {
     /**
      * Cola de Prioridad del sistema.
      */
-    // private priorityQueueMin<Visitante> colaPrioridad;
+    private priorityQueueMin<Visitante> colaPrioridad;
 
     /**
      * Instancia de aleatorio para diversos usos.
@@ -58,6 +58,10 @@ public class CCU {
      * Dia de ejecución del programa. Es simulada.
      */
     LocalDate fechaActual = LocalDate.now();
+
+    public CCU(){
+        colaPrioridad = new priorityQueueMin<Visitante>();
+    }
 
     /**
      * Método para conocer la actividad más vendida del día.
@@ -101,7 +105,7 @@ public class CCU {
      * @param vis {@link}Visitante en cuestión.
      */
     public void venta(Visitante vis) {
-        // colaPrioridad.queue(vis);
+        this.colaPrioridad.queue(vis);
         ganancias += vis.precioActividad;
         totalTicketsVendidos++;
     }
@@ -116,6 +120,7 @@ public class CCU {
         String resumen = "\n";
         resumen = fechaActual.toString();
         resumen += "\nCaja Abierta con " + cambioInicio + "\n";
+        resumen += "Fila de Venta: \n" + colaPrioridad + "\n\n";
         resumen += "Total de Boletos Vendidos: " + totalTicketsVendidos + "\n";
         resumen += "Actividad más vendida: " + actividadMasVendida().toString() + "\n";
         resumen += "Actividad menos vendida :" + actividadMenosVendida().toString() + "\n";

@@ -72,7 +72,7 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
      * @return Arreglo genérico
      */
     @SuppressWarnings("unchecked")
-    private T[] creaArregloGenerico(int n) {
+    protected T[] creaArregloGenerico(int n) {
         return (T[]) (new Comparable[n]);
     }
 
@@ -81,7 +81,7 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
      * MinHeap}, pero se ofrece este constructor por completez.
      */
     public Heap() {
-
+        arreglo = creaArregloGenerico(1);
     }
 
     /**

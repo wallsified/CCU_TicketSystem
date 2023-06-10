@@ -18,6 +18,7 @@ public class priorityQueueMin<T extends Comparable<T>> extends MinHeap<T> implem
      * Constructor vació por omisión
      */
     public priorityQueueMin() {
+        super();
     }
 
     /**
@@ -66,4 +67,8 @@ public class priorityQueueMin<T extends Comparable<T>> extends MinHeap<T> implem
         return arreglo[0];
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
