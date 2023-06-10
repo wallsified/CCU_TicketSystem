@@ -59,7 +59,12 @@ public class CCU {
      */
     LocalDate fechaActual = LocalDate.now();
 
-    public CCU(){
+    /**
+     * Constructor sin parámetros para CCU.
+     * Iniciamos con una cola de prioridad
+     * de {@link}Visitante
+     */
+    public CCU() {
         colaPrioridad = new priorityQueueMin<Visitante>();
     }
 
@@ -100,14 +105,24 @@ public class CCU {
     }
 
     /**
+     * No se si esto tenga sentido
+     * @param vis Visitante a añadir a la fila
+     */
+    public void fila(Visitante vis){
+        this.colaPrioridad.queue(vis);
+    }
+
+    /**
      * Método para la compra-venta de boletos.
      * 
      * @param vis {@link}Visitante en cuestión.
      */
     public void venta(Visitante vis) {
-        this.colaPrioridad.queue(vis);
-        ganancias += vis.precioActividad;
-        totalTicketsVendidos++;
+        colaPrioridad.reordena(elemento, esMin);
+        for (Visitante a : colaPrioridad){
+            ganancias += a.precioActividad;
+            totalTicketsVendidos++;
+        }
     }
 
     /**

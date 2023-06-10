@@ -83,7 +83,29 @@ public class Visitante implements Comparable<Visitante> {
     /** Estudiante */
     Estudiante,
     /** Visitante Normal */
-    VisitanteNormal
+    VisitanteNormal;
+
+    /**
+     * Método para imprimir en texto
+     * el tipo de Membresía.
+     * 
+     * @return Cadena de la membresia.
+     */
+    @Override
+    public String toString() {
+      switch (this) {
+        case MiembroClub:
+          return "Miembro CCU";
+        case ComunidadUNAM:
+          return "Comunidad UNAM";
+        case Estudiante:
+          return "Estudiante";
+        case VisitanteNormal:
+          return "Visitante Normal";
+        default:
+          return null;
+      }
+    }
   }
 
   /**
@@ -109,6 +131,12 @@ public class Visitante implements Comparable<Visitante> {
       boletosVendidosPorActividad++;
     }
 
+    /**
+     * Método para imprimir en texto
+     * el tipo de Actividad.
+     * 
+     * @return Cadena de la Actividad.
+     */
     @Override
     public String toString() {
       switch (this) {
@@ -236,8 +264,13 @@ public class Visitante implements Comparable<Visitante> {
     return 0;
   }
 
+  /**
+   * Método para imprimir la información del visitante.
+   * 
+   * @return Información del visitante.
+   */
   @Override
-  public String toString(){
+  public String toString() {
     String vis = " ";
     vis += "Membresia: " + memb.toString() + "\n";
     vis += "Prioridad: " + this.prioridad + "\n";

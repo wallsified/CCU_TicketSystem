@@ -68,7 +68,7 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
      * Truco para crear arreglos genéricos. Es necesario hacerlo así por cómo
      * Java implementa sus genéricos; de otra forma obtenemos advertencias del
      * compilador.
-     * 
+     * @param n Tamaño del arreglo a generar.   
      * @return Arreglo genérico
      */
     @SuppressWarnings("unchecked")
