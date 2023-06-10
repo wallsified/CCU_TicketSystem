@@ -20,16 +20,20 @@
 En la carpeta de la tarea se abre la terminal y se ejecutan los siguientes comandos:
 
 ```
+javac -cp ".:lib/PilasYColas.jar" -d bin  src/*/*.java
+
+java -cp ".:lib/PilasYColas.jar:bin/" System/CCU
+```
+
+<!-- ```
 javac -cp ".:lib/PilasYColas.jar" -d bin src/System/*.java && javac -cp ".:lib/PilasYColas.jar" -d bin src/Priority/*.java
 
-java -cp ".:lib/PilasYColas.jar:bin/" System/CCU 
-```
+java -cp ".:lib/PilasYColas.jar:bin/" System/CCU
+``` -->
 
 <br>
 
 ## Resultado previsto en terminal.
-
-
 
 <br>
 
@@ -38,7 +42,8 @@ java -cp ".:lib/PilasYColas.jar:bin/" System/CCU
 Para generar la documentación se ocupa el siguiente comando en la carpeta de la tarea:
 
 ```
-javadoc -cp ".:lib/PilasYColas.jar" -d docs src/*.java
+javadoc -cp ".:lib/PilasYColas.jar" -d docs src/*/*.java
+
 ```
 
 Y esta se podrá abrir en el navegador desde el archivo _allclasses-index.html_
@@ -49,4 +54,4 @@ Y esta se podrá abrir en el navegador desde el archivo _allclasses-index.html_
 
 <br>
 
-> _>inserte frase final aqui<..._
+> _I fight for the USER!..._

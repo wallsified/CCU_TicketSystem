@@ -1,18 +1,19 @@
 package System;
 
-import java.util.Random;
-
 import Priority.priorityQueueMin;
+import System.Visitante.Actividad;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
-
-import System.Visitante.Actividad;
+import java.util.Random;
 
 /**
- * Clase Controladora?. La lógica sería que todo el ajuste
- * que haya que hacer con las colas y visitantes se haga desde aqui.
+ * Clase del "Sistema de gestión". Consideramos que el sistema tiene
+ * a su mano parámetros establecidos para funcionar (como una cola
+ * de proridad, una fecha de inicio, una "impresora", etc). y
+ * simulamos la compra-venta de boletos de la actividad del
+ * {@link}Visitante
  * 
  * @version 1.0
  * @author wallsified
@@ -26,7 +27,10 @@ public class CCU {
      */
     private double ganancias;
 
-    private priorityQueueMin<Visitante> colaPrioridad;
+    /**
+     * Cola de Prioridad del sistema.
+     */
+    // private priorityQueueMin<Visitante> colaPrioridad;
 
     /**
      * Instancia de aleatorio para diversos usos.
@@ -34,7 +38,9 @@ public class CCU {
     Random test = new Random(System.currentTimeMillis());
 
     /**
+     * Cambio disponible para empezar la venta.
      * 
+     * @Deprecated
      */
     private double cambioInicio = test.nextInt(2000) + 1;
 
@@ -43,6 +49,21 @@ public class CCU {
      */
     private int totalTicketsVendidos;
 
+    /**
+     * Contador de dias trabajados
+     */
+    private int contadorDias = 0;
+
+    /**
+     * Dia de ejecución del programa. Es simulada.
+     */
+    LocalDate fechaActual = LocalDate.now();
+
+    /**
+     * Método para conocer la actividad más vendida del día.
+     * 
+     * @return Actividad con el mayor número de tickets vendidos.
+     */
     public Actividad actividadMasVendida() {
         int maximo1 = Math.max(Actividad.Cine.boletosVendidosPorActividad,
                 Actividad.Expo.boletosVendidosPorActividad);
@@ -56,6 +77,11 @@ public class CCU {
         return null;
     }
 
+    /**
+     * Método para conocer la actividad menos vendida del día.
+     * 
+     * @return Actividad con el menor número de tickets vendidos.
+     */
     public Actividad actividadMenosVendida() {
         int minimo1 = Math.min(Actividad.Cine.boletosVendidosPorActividad,
                 Actividad.Expo.boletosVendidosPorActividad);
@@ -75,7 +101,7 @@ public class CCU {
      * @param vis {@link}Visitante en cuestión.
      */
     public void venta(Visitante vis) {
-        colaPrioridad.queue(vis);
+        // colaPrioridad.queue(vis);
         ganancias += vis.precioActividad;
         totalTicketsVendidos++;
     }
@@ -98,36 +124,8 @@ public class CCU {
     }
 
     /**
-     * Contador de dias trabajados
-     */
-    private int contadorDias = 0;
-
-    /**
-     * Dia de ejecución del programa. Es simulada.
-     */
-    LocalDate fechaActual = LocalDate.now();
-
-    /**
-     * Método privado para imprimir la hora en que se hacen los movimientos
-     * en el ticket.
-     *
-     * @return representación en cadena de la hora.
-     */
-    /*
-     * private String regresaHora() {
-     * DateTimeFormatter fechaFormato =
-     * DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-     * String formattedDate = "Fecha y Hora actuales: " +
-     * fechaActual.format(fechaFormato) + "\n";
-     * return formattedDate;
-     * }
-     */
-
-    /**
      * Métódo que genera el archivo de salida de CCU por dia.
-     *
-     * @param veh     Vehiculo del cual se generará el ticket.
-     * @param counter Número de Dia trabajado/simulado.
+     * 
      * @return {@link}CCU en formato .txt generado como archivo externo.
      * @throws IOException En caso de que el archivo no se pueda generar.
      */
@@ -141,6 +139,11 @@ public class CCU {
         return resumen;
     }
 
+    /**
+     * Método que simula el final del día del CCU.
+     * 
+     * @throws IOException En caso de que no se pueda generar el corte de día.
+     */
     private void terminaDia() throws IOException {
         fechaActual.plusDays(1000);
         generaResumen();
@@ -148,6 +151,11 @@ public class CCU {
         totalTicketsVendidos = 0; // para reiniciar secuencia.
     }
 
+    /**
+     * Main de prueba. Posiblemente cambie a {@link}SimuladorDiario.
+     * 
+     * @param args N/A
+     */
     public static void main(String[] args) {
         Visitante daniel = new Visitante();
         Visitante norbert = new Visitante();
@@ -163,7 +171,6 @@ public class CCU {
         } catch (IOException e) {
             System.out.println("oh shit");
         }
-        // System.out.println(nuevo.contadorDias);
 
         nuevo.venta(daniel);
         nuevo.venta(john);

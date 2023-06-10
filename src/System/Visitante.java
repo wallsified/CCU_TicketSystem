@@ -76,7 +76,14 @@ public class Visitante implements Comparable<Visitante> {
    * Tipos de Membresia que puede tener el visitante.
    */
   private enum Membresia {
-    MiembroClub, ComunidadUNAM, Estudiante, VisitanteNormal
+    /** MiembroClub */
+    MiembroClub,
+    /** Comunidad UNAM */
+    ComunidadUNAM,
+    /** Estudiante */
+    Estudiante,
+    /** Visitante Normal */
+    VisitanteNormal
   }
 
   /**
@@ -84,8 +91,15 @@ public class Visitante implements Comparable<Visitante> {
    * propiedades de precio, cupo y cantidad de boletos
    * propios.
    */
-  public enum Actividad {
-    Cine, Expo, Museo, Teatro;
+  protected enum Actividad {
+    /** Cine */
+    Cine,
+    /** Exposición */
+    Expo,
+    /** Museo */
+    Museo,
+    /** Teatro */
+    Teatro;
 
     /** Boletos vendidos por actividad */
     protected int boletosVendidosPorActividad;
@@ -164,6 +178,7 @@ public class Visitante implements Comparable<Visitante> {
         break;
       case Estudiante:
         prioridad = 3;
+        break;
       default:
         prioridad = 4;
     }
@@ -184,6 +199,14 @@ public class Visitante implements Comparable<Visitante> {
     return act == vis.act && entrada.equals(vis.entrada) && memb == vis.memb;
   }
 
+  /**
+   * Método para comparar visitantes. Revisamos
+   * prioridad y hora de entrada.
+   * 
+   * @param vis Visitante a comparar.
+   * @return <code>true</code> si se habla del mismo visitante,
+   *         <code>false</code> en otro caso.
+   */
   @Override
   public int compareTo(Visitante vis) {
 

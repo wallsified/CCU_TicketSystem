@@ -1,4 +1,5 @@
 package Priority;
+
 import java.util.NoSuchElementException;
 import datos.PilasAndColas.Coleccionable;
 
