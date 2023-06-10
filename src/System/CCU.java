@@ -30,7 +30,7 @@ public class CCU {
     /**
      * Cola de Prioridad del sistema.
      */
-    private priorityQueueMin<Visitante> colaPrioridad;
+    private priorityQueueMin<Visitante> colaPrioridad = new priorityQueueMin<Visitante>();;
 
     /**
      * Instancia de aleatorio para diversos usos.
@@ -65,7 +65,7 @@ public class CCU {
      * de {@link}Visitante
      */
     public CCU() {
-        colaPrioridad = new priorityQueueMin<Visitante>();
+        
     }
 
     /**
