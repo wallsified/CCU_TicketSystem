@@ -82,7 +82,7 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
      * MinHeap}, pero se ofrece este constructor por completez.
      */
     public Heap() {
-        
+
     }
 
     /**
@@ -328,14 +328,10 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
      * @param d Tercer elemento en la comparación
      */
     private int getMenor(int elemento, int i, int d) {
-
-        if (arreglo[elemento].compareTo(arreglo[i]) <= 0 && arreglo[elemento].compareTo(arreglo[d]) <= 0)
-            return elemento;
-
-        if (arreglo[i].compareTo(arreglo[elemento]) <= 0 && arreglo[i].compareTo(arreglo[d]) <= 0)
+        if (arreglo[i].compareTo(arreglo[d]) <= 0)
             return i;
 
-        if (arreglo[d].compareTo(arreglo[elemento]) <= 0 && arreglo[d].compareTo(arreglo[i]) <= 0)
+        if (arreglo[d].compareTo(arreglo[i]) < 0)
             return d;
 
         return -1;
@@ -353,13 +349,10 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
      * @param d Tercer elemento en la comparación
      */
     private int getMayor(int elemento, int i, int d) {
-        if (arreglo[elemento].compareTo(arreglo[i]) >= 0 && arreglo[elemento].compareTo(arreglo[d]) >= 0)
-            return elemento;
-
-        if (arreglo[i].compareTo(arreglo[elemento]) >= 0 && arreglo[i].compareTo(arreglo[d]) >= 0)
+        if (arreglo[i].compareTo(arreglo[d]) >= 0)
             return i;
 
-        if (arreglo[d].compareTo(arreglo[elemento]) >= 0 && arreglo[d].compareTo(arreglo[i]) >= 0)
+        if (arreglo[d].compareTo(arreglo[i]) > 0)
             return d;
 
         return -1;

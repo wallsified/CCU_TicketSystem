@@ -268,8 +268,8 @@ public class Visitante implements Comparable<Visitante> {
   @Override
   public int compareTo(Visitante vis) {
 
-    if (this.prioridad != vis.prioridad)
-      return this.prioridad - vis.prioridad;
+    if (prioridad != vis.prioridad)
+      return prioridad - vis.prioridad;
 
     if (timeMark.before(vis.timeMark))
       return -1;

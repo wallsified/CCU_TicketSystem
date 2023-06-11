@@ -164,11 +164,17 @@ public class CCU {
      */
     public static void main(String[] args) {
         CCU nuevo = new CCU();
-        for (int i = 0; i < 10; i++) {
+
+        for (int i = 0; i < 10; i++)
             nuevo.venta(new Visitante());
-        }
+
 
         // System.out.println(nuevo);
+
+        // for (Visitante e : nuevo.colaPrioridad)
+        //     System.out.println(e); 
+        
+        System.out.println(nuevo.colaPrioridad);
 
         try {
             nuevo.terminaDia();
