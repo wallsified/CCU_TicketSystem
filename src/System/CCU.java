@@ -6,7 +6,6 @@ import System.Visitante.Actividad;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Random;
 
 /**
  * Clase del "Sistema de gestión". Consideramos que el sistema tiene
@@ -30,12 +29,7 @@ public class CCU {
     /**
      * Cola de Prioridad del sistema.
      */
-    private priorityQueueMin<Visitante> colaPrioridad = new priorityQueueMin<Visitante>();
-
-    /**
-     * Instancia de aleatorio para diversos usos.
-     */
-    Random test = new Random(System.currentTimeMillis());
+    protected priorityQueueMin<Visitante> colaPrioridad = new priorityQueueMin<Visitante>();
 
     /**
      * Total de tickets vendidos
@@ -43,9 +37,11 @@ public class CCU {
     private int totalTicketsVendidos;
 
     /**
-     * Contador de dias trabajados
+     * Contador de dias trabajados.
+     * Iniciamos en 1 para no tener Dias 0.
+     * Dejemos ese término para cyberseguridad.
      */
-    private int contadorDias = 0;
+    private int contadorDias = 1;
 
     /**
      * Dia de ejecución del programa. Es simulada.
@@ -118,7 +114,7 @@ public class CCU {
         String resumen = "\n";
         resumen += "Dia Laborado: ";
         resumen += fechaActual.toString();
-        // resumen += "\nCaja Abierta con " + cambioInicio + "\n";
+        resumen += "\nEsto ocurrió hoy: \n";
         resumen += "\nFila de Venta: \n" + colaPrioridad + "\n";
         resumen += "Total de Boletos Vendidos: " + totalTicketsVendidos + "\n";
         resumen += "Actividad más vendida: " + actividadMasVendida().toString() + "\n";
@@ -135,11 +131,11 @@ public class CCU {
      */
     public FileWriter generaResumen() throws IOException {
         FileWriter resumen = new FileWriter("Dia #" + contadorDias + ".txt");
-        String startCCU = "Bienvenido al Sistema de Ventas del CCU.\n Esto ocurrió hoy:";
+        String startCCU = "Bienvenido al Sistema de Ventas del CCU.\n";
         startCCU += toString();
         resumen.write(startCCU);
         resumen.close();
-        System.out.println("CCU Cerrado por hoy. Resumen del día guardado exitosamente.\n");
+        System.out.println("\nCCU Cerrado por hoy. Resumen del día guardado exitosamente.\n");
 
         return resumen;
     }
@@ -149,38 +145,12 @@ public class CCU {
      * 
      * @throws IOException En caso de que no se pueda generar el corte de día.
      */
-    private void terminaDia() throws IOException {
-        fechaActual = fechaActual.plusDays(1L);
+    protected void terminaDia() throws IOException {
         generaResumen();
         contadorDias++;
         ganancias = 0;
         totalTicketsVendidos = 0; // para reiniciar secuencia.
-    }
-
-    /**
-     * Main de prueba. Posiblemente cambie a {@link}SimuladorDiario.
-     * 
-     * @param args N/A
-     */
-    public static void main(String[] args) {
-        CCU nuevo = new CCU();
-
-        for (int i = 0; i < 10; i++)
-            nuevo.venta(new Visitante());
-
-
-        // System.out.println(nuevo);
-
-        // for (Visitante e : nuevo.colaPrioridad)
-        //     System.out.println(e); 
-        
-        System.out.println(nuevo.colaPrioridad);
-
-        try {
-            nuevo.terminaDia();
-        } catch (IOException e) {
-            System.out.println("oh shit");
-        }
+        fechaActual = fechaActual.plusDays(1L);
     }
 
 }
