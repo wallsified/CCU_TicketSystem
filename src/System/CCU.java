@@ -25,7 +25,7 @@ public class CCU {
     /**
      * Ganancias
      */
-    private double ganancias;
+    private double ganancias = 0;
 
     /**
      * Cola de Prioridad del sistema.
@@ -36,13 +36,6 @@ public class CCU {
      * Instancia de aleatorio para diversos usos.
      */
     Random test = new Random(System.currentTimeMillis());
-
-    /**
-     * Cambio disponible para empezar la venta.
-     * 
-     * @Deprecated
-     */
-    private double cambioInicio = test.nextInt(2000) + 1;
 
     /**
      * Total de tickets vendidos
@@ -105,24 +98,14 @@ public class CCU {
     }
 
     /**
-     * No se si esto tenga sentido
-     * @param vis Visitante a añadir a la fila
-     */
-    public void fila(Visitante vis){
-        this.colaPrioridad.queue(vis);
-    }
-
-    /**
      * Método para la compra-venta de boletos.
      * 
      * @param vis {@link}Visitante en cuestión.
      */
     public void venta(Visitante vis) {
         colaPrioridad.queue(vis);
-        for (Visitante a : colaPrioridad){
-            ganancias += a.precioActividad;
-            totalTicketsVendidos++;
-        }
+        totalTicketsVendidos++;
+        ganancias += vis.precioActividad;
     }
 
     /**
@@ -133,12 +116,13 @@ public class CCU {
     @Override
     public String toString() {
         String resumen = "\n";
-        resumen = fechaActual.toString();
-        resumen += "\nCaja Abierta con " + cambioInicio + "\n";
-        resumen += "Fila de Venta: \n" + colaPrioridad + "\n\n";
+        resumen += "Dia Laborado: ";
+        resumen += fechaActual.toString();
+        // resumen += "\nCaja Abierta con " + cambioInicio + "\n";
+        resumen += "\nFila de Venta: \n" + colaPrioridad + "\n";
         resumen += "Total de Boletos Vendidos: " + totalTicketsVendidos + "\n";
         resumen += "Actividad más vendida: " + actividadMasVendida().toString() + "\n";
-        resumen += "Actividad menos vendida :" + actividadMenosVendida().toString() + "\n";
+        resumen += "Actividad menos vendida: " + actividadMenosVendida().toString() + "\n";
         resumen += "Ganancias Totales del día: " + ganancias;
         return resumen;
     }
@@ -151,7 +135,8 @@ public class CCU {
      */
     public FileWriter generaResumen() throws IOException {
         FileWriter resumen = new FileWriter("Dia #" + contadorDias + ".txt");
-        String startCCU = toString();
+        String startCCU = "Bienvenido al Sistema de Ventas del CCU.\n Esto ocurrió hoy:";
+        startCCU += toString();
         resumen.write(startCCU);
         resumen.close();
         System.out.println("CCU Cerrado por hoy. Resumen del día guardado exitosamente.\n");
@@ -165,9 +150,10 @@ public class CCU {
      * @throws IOException En caso de que no se pueda generar el corte de día.
      */
     private void terminaDia() throws IOException {
-        fechaActual.plusDays(1000);
+        fechaActual = fechaActual.plusDays(1L);
         generaResumen();
         contadorDias++;
+        ganancias = 0;
         totalTicketsVendidos = 0; // para reiniciar secuencia.
     }
 
@@ -177,32 +163,18 @@ public class CCU {
      * @param args N/A
      */
     public static void main(String[] args) {
-        Visitante daniel = new Visitante();
-        Visitante norbert = new Visitante();
-        Visitante john = new Visitante();
         CCU nuevo = new CCU();
-        nuevo.venta(daniel);
-        nuevo.venta(john);
-        nuevo.venta(norbert);
-        System.out.println(nuevo);
+        for (int i = 0; i < 10; i++) {
+            nuevo.venta(new Visitante());
+        }
+
+        // System.out.println(nuevo);
 
         try {
             nuevo.terminaDia();
         } catch (IOException e) {
             System.out.println("oh shit");
         }
-
-        nuevo.venta(daniel);
-        nuevo.venta(john);
-        nuevo.venta(norbert);
-        System.out.println(nuevo);
-
-        try {
-            nuevo.terminaDia();
-        } catch (IOException e) {
-            System.out.println("oh shit");
-        }
-
     }
 
 }

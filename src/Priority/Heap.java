@@ -412,13 +412,13 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
      * @return la representación en cadena del árbol.
      */
     public String toString() {
-        String out = "[";
+        String out = "\n";
         for (int i = 0; i < siguiente; i++) {
             out += arreglo[i];
             if (i < siguiente - 1)
-                out += ", ";
+                out += "\n";
         }
-        out += "]";
+        out += "\n";
         return out;
     }
 

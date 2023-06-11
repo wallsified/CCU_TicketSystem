@@ -125,11 +125,7 @@ public class priorityQueueMin<T extends Comparable<T>> extends MinHeap<T> implem
 
     @Override
     public String toString() {
-        String out = "[";
-        for (T t : this)
-            out += ", " + t;
-        out += "]";
-        return out;
+        return super.toString();
     }
 
     @Override

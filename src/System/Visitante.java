@@ -1,6 +1,8 @@
 package System;
 
 import java.util.Random;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.sql.Timestamp;
 import java.time.Instant;
 
@@ -31,15 +33,17 @@ public class Visitante implements Comparable<Visitante> {
 
   /**
    * Marca de tiempo única para cada visitante.
-   * Añadimos 3 segundos extra entre cada visitante para simular una
+   * Añadimos 100 segundos extra entre cada visitante para simular una
    * marca de tiempo diferente aun cuando creamos visitantes al mismo tiempo.
+   * Ocupamos esta marca para comparar entre visitantes.
    */
-  protected Timestamp entrada = Timestamp.from(Instant.now().plusSeconds(180));;
+  protected Timestamp timeMark = Timestamp.from(Instant.now().plusSeconds(100));
 
   /**
-   * Pago del visitante. Probablemente se elimine.
+   * Marca de tiempo usada únicamente para estilizar la hora de entrada.
    */
-  public double pago = new Random().nextDouble(200) + 1;
+
+  LocalDateTime entrada = LocalDateTime.now().plusSeconds(100);
 
   /**
    * Precio de la actividad
@@ -67,7 +71,7 @@ public class Visitante implements Comparable<Visitante> {
   public Visitante() {
     memb = seleccionaMembresiaAleatoria();
     act = seleccionaActividadAleatoria();
-    act.boletoVendido();
+    act.boletosVendidosPorActividad++;
     asignaciónActividades(act);
     asignaPrioridad(memb);
   }
@@ -155,6 +159,16 @@ public class Visitante implements Comparable<Visitante> {
   }
 
   /**
+   * Método para poder formatear la hora de entrada del visitante.
+   * 
+   * @return Entrada del visitante formateada.
+   */
+  private String entradaFormateada() {
+    DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:sS:n");
+    return entrada.format(formato);
+  }
+
+  /**
    * Metodo para asignar valores de cupo y pago dada una
    * actividad.
    * 
@@ -169,6 +183,7 @@ public class Visitante implements Comparable<Visitante> {
       case Expo:
         precioActividad = 40;
         cupoPorActividad = 100;
+        break;
       case Teatro:
         precioActividad = 80;
         cupoPorActividad = 150;
@@ -256,10 +271,12 @@ public class Visitante implements Comparable<Visitante> {
     if (this.prioridad != vis.prioridad)
       return this.prioridad - vis.prioridad;
 
-    if (entrada.before(vis.entrada))
+    if (timeMark.before(vis.timeMark))
       return -1;
-    else if (entrada.after(vis.entrada))
+    else if (timeMark.after(vis.timeMark))
       return 1;
+
+    // return (entradaFormato.equals(vis.entradaFormato)) ? 1 : -1;
 
     return 0;
   }
@@ -271,11 +288,11 @@ public class Visitante implements Comparable<Visitante> {
    */
   @Override
   public String toString() {
-    String vis = " ";
+    String vis = "";
     vis += "Membresia: " + memb.toString() + "\n";
     vis += "Prioridad: " + this.prioridad + "\n";
-    vis += "Hora de entrada: " + entrada.toString() + "\n";
-    vis += "Actividad: " + act.toString() + "\n\n";
+    vis += "Hora de entrada: " + this.entradaFormateada() + "\n";
+    vis += "Actividad: " + act.toString() + "\n";
     return vis;
   }
 }
