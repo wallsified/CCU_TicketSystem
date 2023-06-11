@@ -274,6 +274,7 @@ public class Visitante implements Comparable<Visitante> {
     String vis = " ";
     vis += "Membresia: " + memb.toString() + "\n";
     vis += "Prioridad: " + this.prioridad + "\n";
+    vis += "Hora de entrada: " + entrada.toString() + "\n";
     vis += "Actividad: " + act.toString() + "\n\n";
     return vis;
   }

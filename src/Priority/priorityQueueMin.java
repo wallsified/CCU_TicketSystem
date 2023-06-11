@@ -15,7 +15,7 @@ import datos.PilasAndColas.Encolable;
  */
 public class priorityQueueMin<T extends Comparable<T>> extends MinHeap<T> implements Encolable<T> {
 
-        private class Iterador<t extends Comparable<T>> implements Iterator<T> {
+    private class Iterador<t extends Comparable<T>> implements Iterator<T> {
 
         /** Índice del iterador. */
         private priorityQueueMin<T> aux = new priorityQueueMin<T>();
@@ -119,13 +119,17 @@ public class priorityQueueMin<T extends Comparable<T>> extends MinHeap<T> implem
      * WIP
      */
     @Override
-    public void reordena(int elemento){
+    public void reordena(int elemento) {
         super.reordena(elemento);
     }
 
     @Override
     public String toString() {
-        return super.toString();
+        String out = "[";
+        for (T t : this)
+            out += ", " + t;
+        out += "]";
+        return out;
     }
 
     @Override

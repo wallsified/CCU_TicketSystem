@@ -118,7 +118,7 @@ public class CCU {
      * @param vis {@link}Visitante en cuestión.
      */
     public void venta(Visitante vis) {
-        // colaPrioridad.reordena(elemento);
+        colaPrioridad.queue(vis);
         for (Visitante a : colaPrioridad){
             ganancias += a.precioActividad;
             totalTicketsVendidos++;
@@ -184,7 +184,7 @@ public class CCU {
         nuevo.venta(daniel);
         nuevo.venta(john);
         nuevo.venta(norbert);
-        System.out.println(nuevo.toString());
+        System.out.println(nuevo);
 
         try {
             nuevo.terminaDia();
@@ -195,7 +195,7 @@ public class CCU {
         nuevo.venta(daniel);
         nuevo.venta(john);
         nuevo.venta(norbert);
-        System.out.println(nuevo.toString());
+        System.out.println(nuevo);
 
         try {
             nuevo.terminaDia();
