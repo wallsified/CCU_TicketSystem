@@ -118,7 +118,7 @@ public class CCU {
      * @param vis {@link}Visitante en cuestión.
      */
     public void venta(Visitante vis) {
-        colaPrioridad.reordena(elemento);
+        // colaPrioridad.reordena(elemento);
         for (Visitante a : colaPrioridad){
             ganancias += a.precioActividad;
             totalTicketsVendidos++;

@@ -1,5 +1,6 @@
 package Priority;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import datos.PilasAndColas.Coleccionable;
 import datos.PilasAndColas.Encolable;
@@ -13,6 +14,43 @@ import datos.PilasAndColas.Encolable;
  * @author wallsified
  */
 public class priorityQueueMin<T extends Comparable<T>> extends MinHeap<T> implements Encolable<T> {
+
+        private class Iterador<t extends Comparable<T>> implements Iterator<T> {
+
+        /** Índice del iterador. */
+        private priorityQueueMin<T> aux = new priorityQueueMin<T>();
+
+        /** Construye un nuevo iterador, auxiliándose del heap mínimo. */
+        public Iterador() {
+            aux = new priorityQueueMin<T>(arreglo);
+        }
+
+        /**
+         * Método para saber si hay siguiente.
+         * 
+         * @return <code>true</code> si hay siguiente, <code>false</code> en otro caso.
+         */
+        @Override
+        public boolean hasNext() {
+            return !aux.esVacia();
+        }
+
+        /**
+         * Regresa el siguiente elemento.
+         * 
+         * @return Siguiente elemento.
+         */
+        @Override
+        public T next() {
+            return (T) aux.eliminar();
+        }
+
+        /** No lo implementamos: siempre lanza una excepción. */
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+    }
 
     /**
      * Constructor vació por omisión
@@ -28,6 +66,16 @@ public class priorityQueueMin<T extends Comparable<T>> extends MinHeap<T> implem
      */
     public priorityQueueMin(Coleccionable<T> c) {
         super(c);
+    }
+
+    /**
+     * Constructor que recibe un arreglo genérico.
+     * 
+     * @param c Arreglo desde el que se construye.
+     */
+    public priorityQueueMin(T[] c) {
+        for (T t : c)
+            agregar(t);
     }
 
     /**
@@ -78,5 +126,10 @@ public class priorityQueueMin<T extends Comparable<T>> extends MinHeap<T> implem
     @Override
     public String toString() {
         return super.toString();
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterador<T>();
     }
 }

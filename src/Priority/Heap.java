@@ -62,13 +62,14 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
      * El arreglo que guarda los datos con la estructura de árbol ue requiere el
      * heap.
      */
-    protected T[] arreglo;
+    protected T[] arreglo = creaArregloGenerico(0);
 
     /**
      * Truco para crear arreglos genéricos. Es necesario hacerlo así por cómo
      * Java implementa sus genéricos; de otra forma obtenemos advertencias del
      * compilador.
-     * @param n Tamaño del arreglo a generar.   
+     * 
+     * @param n Tamaño del arreglo a generar.
      * @return Arreglo genérico
      */
     @SuppressWarnings("unchecked")
@@ -81,7 +82,7 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
      * MinHeap}, pero se ofrece este constructor por completez.
      */
     public Heap() {
-        arreglo = creaArregloGenerico(1);
+        
     }
 
     /**
@@ -161,17 +162,17 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
     @Override
     public void agregar(T elemento) {
 
-        if (siguiente == arreglo.length) {
-            T[] aux = creaArregloGenerico(siguiente * 2 + 1);
-            for (int i = 0; i < arreglo.length; i++)
-                aux[i] = arreglo[i];
-            arreglo = aux;
+        if (elemento != null) {
+            if (siguiente == arreglo.length) {
+                T[] aux = creaArregloGenerico(siguiente * 2 + 1);
+                for (int i = 0; i < arreglo.length; i++)
+                    aux[i] = arreglo[i];
+                arreglo = aux;
+            }
+            arreglo[siguiente] = elemento;
+            reordena(siguiente);
+            siguiente++;
         }
-
-        arreglo[siguiente] = elemento;
-        reordena(siguiente);
-        siguiente++;
-
     }
 
     /**
@@ -272,10 +273,10 @@ public abstract class Heap<T extends Comparable<T>> implements Coleccionable<T> 
      * 
      * @param elemento a eliminar del heap.
      * @throws IllegalStateException Esta operación no debería ser posible
-     *                                en un Heap
+     *                               en un Heap
      */
     @Override
-    public void eliminar (T elemento) throws IllegalStateException {
+    public void eliminar(T elemento) throws IllegalStateException {
         throw new IllegalStateException("Esta operación no debería ser válida para Heaps");
     }
 
