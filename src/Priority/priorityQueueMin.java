@@ -70,8 +70,9 @@ public class priorityQueueMin<T extends Comparable<T>> extends MinHeap<T> implem
     /**
      * WIP
      */
-    public void reordena(int elemento, boolean esMin){
-        super.reordena(elemento, esMin);
+    @Override
+    public void reordena(int elemento){
+        super.reordena(elemento);
     }
 
     @Override

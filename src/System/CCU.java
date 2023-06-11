@@ -30,7 +30,7 @@ public class CCU {
     /**
      * Cola de Prioridad del sistema.
      */
-    private priorityQueueMin<Visitante> colaPrioridad = new priorityQueueMin<Visitante>();;
+    private priorityQueueMin<Visitante> colaPrioridad = new priorityQueueMin<Visitante>();
 
     /**
      * Instancia de aleatorio para diversos usos.
@@ -65,7 +65,7 @@ public class CCU {
      * de {@link}Visitante
      */
     public CCU() {
-        
+
     }
 
     /**
@@ -118,7 +118,7 @@ public class CCU {
      * @param vis {@link}Visitante en cuestión.
      */
     public void venta(Visitante vis) {
-        colaPrioridad.reordena(elemento, esMin);
+        colaPrioridad.reordena(elemento);
         for (Visitante a : colaPrioridad){
             ganancias += a.precioActividad;
             totalTicketsVendidos++;

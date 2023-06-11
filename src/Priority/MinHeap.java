@@ -52,6 +52,10 @@ public class MinHeap<T extends Comparable<T>> extends Heap<T> {
     arreglo[0] = arreglo[siguiente - 1];
     arreglo[--siguiente] = null;
     super.reordenaParaAbajo(0, true);
+
+    if(siguiente==0)
+      vaciar();
+
     return min;
   }
 
